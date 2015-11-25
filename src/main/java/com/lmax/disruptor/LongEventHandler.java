@@ -3,11 +3,11 @@ package com.lmax.disruptor;
 
 public class LongEventHandler implements EventHandler<LongEvent> {
 
-    private static int count;
+    private int count;
 
 
     @Override
     public void onEvent(LongEvent event, long sequence, boolean endOfBatch) {
-        System.out.println(count++);
+        System.out.println("Thread" + Thread.currentThread().getName() + " count=" + count++);
     }
 }
