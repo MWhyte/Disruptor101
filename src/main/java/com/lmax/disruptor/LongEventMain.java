@@ -22,7 +22,8 @@ public class LongEventMain {
         // Disruptor disruptor = new Disruptor<>(factory, bufferSize, executor, ProducerType.SINGLE, new BlockingWaitStrategy());
 
         // Connect the handler
-        disruptor.handleEventsWith(new LongEventHandler(), new LongEventHandler(), new LongEventHandler());
+        disruptor.handleEventsWith(new LongEventHandler())
+                .then(new LongEventHandler(), new LongEventHandler());
 
         // Start the Disruptor, starts all threads running
         disruptor.start();
