@@ -1,13 +1,13 @@
 
 # Multiple concurrent handlers:
 
-ftl -> TPMessageCallback    -> ringbuffer   -> EventHandler -> MDCache
-                                            -> EventHandler -> MDCache
-                                            -> EventHandler -> MDCache
-                                            -> EventHandler -> MDCache
+ftl -> TPMessageCallback    -> ringbuffer   -> EventHandler -> MDCache chain
+                                            -> EventHandler -> MDCache chain
+                                            -> EventHandler -> MDCache chain
+                                            -> EventHandler -> MDCache chain
 
-Could thread based on odd even seq numbers? message type?
+Could thread based on odd even seq numbers? message type? channels
 
-Something of the packet header
+Anything of the packet header basically
 
 Potential issues: -> EventHandler -> MDCache must be thread safe
