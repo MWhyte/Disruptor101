@@ -1,6 +1,7 @@
 package com.lmax.disruptor;
 
 import com.lmax.disruptor.dsl.Disruptor;
+import com.lmax.disruptor.dsl.ProducerType;
 
 import java.nio.ByteBuffer;
 import java.util.concurrent.Executor;
@@ -18,15 +19,16 @@ public class LongEventMain {
         int bufferSize = 1024;
 
         // Construct the Disruptor
-        Disruptor<LongEvent> disruptor = new Disruptor<>(factory, bufferSize, executor);
-        // Disruptor disruptor = new Disruptor<>(factory, bufferSize, executor, ProducerType.SINGLE, new BlockingWaitStrategy());
+//        Disruptor<LongEvent> disruptor = new Disruptor<>(factory, bufferSize, executor);
+//         Disruptor disruptor = new Disruptor<>(factory, bufferSize, executor, ProducerType.SINGLE, new BusySpinWaitStrategy());
+         Disruptor disruptor = new Disruptor<>(factory, bufferSize, executor, ProducerType.SINGLE, new YieldingWaitStrategy());
 
         // Connect the handler
-        disruptor.handleEventsWith(new LongEventHandler())
-                .then(new LongEventHandler(), new LongEventHandler());
-
-        disruptor.handleEventsWith(new LongEventHandler())
-                .then(new LongEventHandler(), new LongEventHandler());
+        disruptor.handleEventsWith(new LongEventHandler()
+                , new LongEventHandler(), new LongEventHandler()
+                , new LongEventHandler(), new LongEventHandler()
+                , new LongEventHandler(), new LongEventHandler()
+                , new LongEventHandler(), new LongEventHandler());
 
         // Start the Disruptor, starts all threads running
         disruptor.start();
@@ -50,7 +52,7 @@ public class LongEventMain {
     }
 
     private static void busyWait() {
-        final long INTERVAL = 1000000000; // 1000000000 = 1 Second
+        final long INTERVAL = 10000; // 10000 = 0.01 millis
         long start = System.nanoTime();
         long end;
         do {
