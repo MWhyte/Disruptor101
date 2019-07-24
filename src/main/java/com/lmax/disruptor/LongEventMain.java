@@ -1,13 +1,19 @@
 package com.lmax.disruptor;
 
 import com.lmax.disruptor.dsl.Disruptor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.nio.ByteBuffer;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class LongEventMain {
-    public static void main(String[] args) throws Exception {
+
+    private static final Logger LOG = LogManager.getLogger(LongEventMain.class);
+
+    public static void main(String[] args) {
+
         // Executor that will be used to construct new threads for consumers
         Executor executor = Executors.newCachedThreadPool();
 
@@ -39,8 +45,8 @@ public class LongEventMain {
 
             busyWait();
 
-            if (ringBuffer.remainingCapacity() < 100l){
-                System.err.println("Buffer reaching capacity" + ringBuffer.remainingCapacity());
+            if (ringBuffer.remainingCapacity() < 100L) {
+                LOG.error("Buffer reaching capacity" + ringBuffer.remainingCapacity());
             }
         }
     }
@@ -51,6 +57,6 @@ public class LongEventMain {
         long end;
         do {
             end = System.nanoTime();
-        } while(start + INTERVAL >= end);
+        } while (start + INTERVAL >= end);
     }
 }
